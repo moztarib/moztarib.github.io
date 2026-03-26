@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faris Beg — Data & Research Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #08090c;
+      --bg2:       #0f1117;
+      --bg3:       #14161e;
+      --card:      #11131a;
+      --blue:      #3b7dd8;
+      --blue-lt:   #5b9af0;
+      --blue-dim:  rgba(59,125,216,0.12);
+      --blue-b:    rgba(59,125,216,0.28);
+      --text:      #f0f2f8;
+      --text-muted:#8892a8;
+      --text-dim:  #3a4160;
+      --border:    rgba(255,255,255,0.07);
+      --border-b:  rgba(59,125,216,0.3);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.15rem 5rem;
+      background: rgba(8,9,12,0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo em { font-style: normal; color: var(--blue); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue-lt); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 9rem 5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -180px; right: -120px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(59,125,216,0.07) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(59,125,216,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,125,216,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+    }
+
+    .hero-content { max-width: 880px; position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s ease forwards;
+    }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--blue); }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(4.5rem, 10vw, 8rem);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+    .hero-name span { color: var(--blue-lt); }
+
+    .hero-headline {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+
+    .hero-rule {
+      width: 56px; height: 1px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s ease forwards;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 620px;
+      line-height: 1.9;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.45s ease forwards;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.55s ease forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--blue);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      padding: 0.9rem 2.2rem;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover { background: var(--blue-lt); transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border-b);
+      color: var(--blue-lt);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      padding: 0.9rem 2.2rem;
+      text-decoration: none;
+      background: transparent;
+      transition: all 0.25s;
+    }
+    .btn-ghost:hover { background: var(--blue-dim); transform: translateY(-2px); }
+
+    .hero-meta {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s ease forwards;
+    }
+    .hero-meta-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .hero-meta-item span { color: var(--blue); }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 5rem; position: relative; z-index: 1; }
+    section.alt { background: var(--bg2); }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-label::before { content: ''; width: 18px; height: 1px; background: var(--blue); }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 1.1rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .stat-box {
+      background: var(--card);
+      padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: 0.3rem;
+      transition: background 0.3s;
+    }
+    .stat-box:hover { background: var(--bg3); }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      color: var(--blue-lt);
+      line-height: 1;
+    }
+    .stat-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── ERASMUS ── */
+    #erasmus { background: var(--bg); }
+
+    .erasmus-intro {
+      max-width: 680px;
+      margin-bottom: 3rem;
+    }
+    .erasmus-intro p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+    }
+    .erasmus-intro p strong { color: var(--text); font-weight: 500; }
+
+    .erasmus-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-b);
+      border: 1px solid var(--border-b);
+      max-width: 1100px;
+      margin-bottom: 2rem;
+    }
+
+    .e-cell {
+      background: var(--bg);
+      padding: 2rem 1.75rem;
+      display: flex; flex-direction: column; gap: 0.45rem;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .e-cell:hover { background: var(--bg3); }
+
+    .e-flag { font-size: 1.9rem; margin-bottom: 0.5rem; }
+    .e-sem {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .e-country {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .e-uni { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    .e-note {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+      margin-top: 0.4rem;
+    }
+
+    .erasmus-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--blue-dim);
+      border: 1px solid var(--border-b);
+      padding: 1rem 1.75rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      max-width: 700px;
+    }
+    .erasmus-badge strong { color: var(--blue-lt); font-weight: 500; }
+
+    /* ── EXPERTISE ── */
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      max-width: 1100px;
+    }
+
+    .ex-card {
+      background: var(--card);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.7rem;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .ex-card:hover { background: var(--bg3); }
+
+    .ex-icon { font-size: 1.3rem; }
+
+    .ex-card h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .ex-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.75; }
+
+    .ex-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: auto;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { max-width: 940px; }
+
+    .t-item {
+      display: grid;
+      grid-template-columns: 185px 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .t-item:last-child { border-bottom: none; }
+
+    .t-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      line-height: 1.7;
+    }
+    .t-meta strong {
+      display: block;
+      font-size: 0.63rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .t-body h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .t-org {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    .t-points { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .t-points li {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      padding-left: 1.1rem;
+      position: relative;
+      line-height: 1.75;
+    }
+    .t-points li::before {
+      content: '·';
+      position: absolute; left: 0;
+      color: var(--blue);
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+    .t-points li strong { color: var(--text); font-weight: 500; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+    }
+
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.7rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .proj-card:hover { border-color: var(--border-b); transform: translateY(-3px); }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .proj-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.1em;
+      background: var(--blue-dim);
+      border: 1px solid var(--border-b);
+      padding: 0.15rem 0.5rem;
+    }
+
+    .proj-card h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.97rem;
+    }
+
+    .proj-card p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      flex-grow: 1;
+    }
+
+    .proj-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--blue-lt);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+      margin-top: 0.25rem;
+      transition: gap 0.2s;
+    }
+    .proj-link:hover { gap: 0.7rem; }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list { max-width: 940px; display: flex; flex-direction: column; gap: 1rem; }
+
+    .pub-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      transition: border-color 0.3s;
+    }
+    .pub-card:hover { border-color: var(--border-b); }
+
+    .pub-text h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+    .pub-text p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    .pub-actions { display: flex; gap: 0.5rem; flex-shrink: 0; flex-wrap: wrap; }
+
+    .pub-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.67rem;
+      color: var(--blue-lt);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border-b);
+      padding: 0.4rem 0.85rem;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .pub-btn:hover { background: var(--blue-dim); }
+
+    /* ── AWARDS ── */
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 1100px;
+    }
+
+    .award-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.75rem;
+      display: flex; align-items: flex-start; gap: 1.1rem;
+      transition: border-color 0.3s;
+    }
+    .award-card:hover { border-color: var(--border-b); }
+
+    .award-ico { font-size: 1.2rem; flex-shrink: 0; padding-top: 0.1rem; }
+    .award-info h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+    .award-info p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--bg2); }
+
+    .gallery-note {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+      margin-bottom: 2rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 1100px;
+    }
+
+    .gallery-slot {
+      aspect-ratio: 4/3;
+      background: var(--card);
+      border: 1px dashed var(--border-b);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .gallery-slot:hover { border-color: var(--blue-lt); }
+
+    .gallery-slot img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .gallery-slot .placeholder-icon { font-size: 1.5rem; opacity: 0.4; }
+
+    /* Add this class to a slot when it has a real image: show the img, hide the placeholder */
+    .gallery-slot.has-photo .placeholder-icon,
+    .gallery-slot.has-photo span { display: none; }
+    .gallery-slot.has-photo img { display: block; }
+
+    /* ── SKILLS ── */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 5rem;
+      max-width: 1100px;
+    }
+
+    .skill-group { margin-bottom: 2rem; }
+    .skill-group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.67rem;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.71rem;
+      padding: 0.35rem 0.8rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .tag:hover { border-color: var(--border-b); color: var(--blue-lt); }
+
+    .lang-list { display: flex; flex-direction: column; gap: 0.55rem; }
+    .lang-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .lang-row:hover { border-color: var(--border-b); }
+    .lang-name-txt { font-size: 0.88rem; }
+    .lang-lvl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--blue-lt);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    #contact h2 { margin-bottom: 0.75rem; }
+
+    .contact-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 0 auto 3rem;
+      font-weight: 300;
+    }
+
+    .contact-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .contact-tile {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      background: var(--card);
+      letter-spacing: 0.06em;
+      transition: all 0.25s;
+    }
+    .contact-tile:hover { border-color: var(--border-b); color: var(--blue-lt); }
+    .contact-tile svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.75rem 5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      position: relative; z-index: 1;
+    }
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+    footer span { color: var(--blue-lt); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 1rem 2rem; }
+      section { padding: 4rem 2rem; }
+      #hero { padding: 7rem 2rem 4rem; }
+      .about-layout,
+      .expertise-grid,
+      .skills-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .erasmus-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .awards-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .t-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .pub-card { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; gap: 0.4rem; text-align: center; padding: 1.5rem 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .erasmus-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">Faris <em>Beg</em></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#erasmus">Erasmus</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Available for opportunities · Berlin, Germany</div>
+      <div class="hero-name">Faris<br/><span>Beg</span></div>
+      <div class="hero-headline">Data &amp; Research Analytics</div>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">
+        Strong foundation in computational geophysics and data science, with hands-on experience applying numerical modelling and advanced analytics to complex, real-world datasets. Skilled in orbital data analysis and translating research questions into the right analytical approach. <strong>Graduate of the prestigious Erasmus Mundus Master's</strong>, with four academic mobilities across Europe. The rigour of publishable research translates directly into robust, decision-ready analysis for data-driven organisations.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Get in touch →</a>
+        <a href="https://github.com/moztarib" target="_blank" class="btn-ghost">GitHub</a>
+        <a href="https://www.linkedin.com/in/faris-beg-a378a0359/" target="_blank" class="btn-ghost">LinkedIn</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span>✉</span> farisbeg.mirza@gmail.com</div>
+        <div class="hero-meta-item"><span>☎</span> +39 345 030 7631</div>
+        <div class="hero-meta-item"><span>⌖</span> Berlin, Germany</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="alt">
+    <div class="section-label">01 — Profile</div>
+    <h2>Who I am</h2>
+    <div class="about-layout">
+      <div class="about-text">
+        <p>I am a <strong>research-trained data specialist</strong> with a foundation in computational geophysics and a growing focus on data analytics and business intelligence. My scientific background taught me to extract signal from noise — working with imperfect, high-dimensional datasets where the analytical approach itself is half the problem.</p>
+        <p>I bring both the technical depth to build the pipeline and the communication instinct to present findings to non-technical stakeholders. The same rigour that drives publishable research translates directly into <strong>clear, evidence-backed analytical work</strong> for data-driven organisations.</p>
+        <p>My Erasmus Mundus journey, spanning four countries and four institutions over two years, built not just technical expertise but the <strong>adaptability and cross-cultural fluency</strong> that thrive in consulting and client-facing environments.</p>
+        <p>Actively seeking junior to entry-level roles in <strong>data analytics, data consultancy, climate data, and business analysis</strong>. Open to relocation or remote.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <div class="stat-num">2</div>
+          <div class="stat-desc">Scientific publications as lead author</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">4</div>
+          <div class="stat-desc">Academic mobilities across Europe</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">5</div>
+          <div class="stat-desc">Previously unknown Mars parameters determined</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">6+</div>
+          <div class="stat-desc">Languages spoken across 3 continents</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERASMUS -->
+  <section id="erasmus">
+    <div class="section-label">02 — Academic Journey</div>
+    <h2>Erasmus Mundus Scholar</h2>
+    <div class="erasmus-intro">
+      <p>Selected as a <strong>fully-funded Erasmus Mundus scholar</strong> under the GeoPlaNet joint master's programme — one of the EU's most prestigious postgraduate scholarships, awarded to a highly competitive international cohort. Over two years, I completed four consecutive academic semesters across four European countries, each embedded at a leading university or research institution. This was not a single exchange. It was a structured, integrated academic journey through <strong>Portugal, Italy, France, and Germany</strong>, culminating in a Master's thesis at the German Aerospace Center (DLR) in Berlin.</p>
+    </div>
+
+    <div class="erasmus-grid">
+      <div class="e-cell">
+        <div class="e-flag">🇵🇹</div>
+        <div class="e-sem">Semester I</div>
+        <div class="e-country">Portugal</div>
+        <div class="e-uni">University of Coimbra, Coimbra</div>
+        <div class="e-note">3 projects in computational geophysics, IDL image processing, and automated NDVI workflows in QGIS.</div>
+      </div>
+      <div class="e-cell">
+        <div class="e-flag">🇮🇹</div>
+        <div class="e-sem">Semester II</div>
+        <div class="e-country">Italy</div>
+        <div class="e-uni">D'Annunzio University, Pescara</div>
+        <div class="e-note">Remote data retrieval via WMS geospatial APIs using MobaXterm and SSH scripts.</div>
+      </div>
+      <div class="e-cell">
+        <div class="e-flag">🇫🇷</div>
+        <div class="e-sem">Semester III</div>
+        <div class="e-country">France</div>
+        <div class="e-uni">Nantes University, Nantes</div>
+        <div class="e-note">Orbital data analytics (Python, QGIS) for Mars and Moon; fluid dynamics; SEM and Raman Spectroscopy lab work.</div>
+      </div>
+      <div class="e-cell">
+        <div class="e-flag">🇩🇪</div>
+        <div class="e-sem">Semester IV — Thesis</div>
+        <div class="e-country">Germany</div>
+        <div class="e-uni">DLR Institute of Space Research, Berlin</div>
+        <div class="e-note">First geophysical study of Noctis Mons (Mars). Python pipelines, 5D plume modelling, MARSIS radar inversion. Published.</div>
+      </div>
+    </div>
+
+    <div class="erasmus-badge">
+      <span style="font-size:1.2rem">🏅</span>
+      <div>Also awarded the <strong>Invest Your Talent in Italy Scholarship (2023)</strong> — a separate competitive award alongside the Erasmus Mundus funding.</div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section id="expertise" class="alt">
+    <div class="section-label">03 — Expertise</div>
+    <h2>What I bring</h2>
+    <div class="expertise-grid">
+      <div class="ex-card">
+        <div class="ex-icon">📊</div>
+        <h3>Data Analytics</h3>
+        <p>End-to-end analytics from raw data ingestion and cleaning through to visualisation and interpretation. Python (pandas, NumPy, Matplotlib), SQL, and Excel with Pivot tables.</p>
+        <div class="ex-label">Primary Focus</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-icon">🗄️</div>
+        <h3>Database Design and SQL</h3>
+        <p>Star schema modelling, fact and dimension table normalisation, complex queries using CTEs, subqueries, and window functions (LAG, RANK, DENSE_RANK).</p>
+        <div class="ex-label">Primary Focus</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-icon">⚙️</div>
+        <h3>Python and Data Pipelines</h3>
+        <p>Built production ETL pipelines processing orbital satellite datasets. CSV ingestion, cleaning, transformation, and database load via SQLAlchemy. Two-plus years of hands-on Python.</p>
+        <div class="ex-label">Primary Focus</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-icon">🌍</div>
+        <h3>Geospatial and Climate Analytics</h3>
+        <p>Advanced geospatial workflows using QGIS, ArcGIS, GDAL, and rasterio. Remote sensing, DEM morphometrics, multispectral and SAR data, and NDVI analysis.</p>
+        <div class="ex-label">Specialist Skill</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-icon">📋</div>
+        <h3>Strategic Communication</h3>
+        <p>Lead author on two scientific publications. Experienced in translating complex technical findings into clear narrative for non-technical audiences and stakeholders.</p>
+        <div class="ex-label">Consultancy Asset</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-icon">🤝</div>
+        <h3>Cross-cultural Collaboration</h3>
+        <p>Operated across five countries and institutions. Six languages across three continents. Thrives in diverse, dynamic team environments.</p>
+        <div class="ex-label">Consultancy Asset</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">04 — Experience</div>
+    <h2>Where I have worked</h2>
+    <div class="timeline">
+
+      <div class="t-item">
+        <div class="t-meta">
+          <strong>Research Internship</strong>
+          Jan 2025 — Jun 2025<br/>Berlin, Germany
+        </div>
+        <div class="t-body">
+          <h3>Research Intern — Planetary Physics</h3>
+          <div class="t-org">German Aerospace Center (DLR)</div>
+          <ul class="t-points">
+            <li>Delivered the <strong>first geophysical and geodynamic study of Noctis Mons (Mars)</strong>, published in the DLR institutional repository and ESSOAr open archive (DOI), determining 5 previously unknown parameters.</li>
+            <li>Built <strong>3 Python ETL pipelines</strong> to process orbital datasets, reconstructing a volcanic height (~8,694 m) and a total edifice volume (0.75 × 10⁶ km³).</li>
+            <li>Developed a <strong>5D numerical plume model</strong> and inverted MARSIS radar data estimating ~51% porous basalt subsurface.</li>
+            <li>End-to-end QGIS workflows (DEM and shapefile) for morphometrics; collaborated with DLR scientists to refine proposed hypotheses.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-meta">
+          <strong>Part Time</strong>
+          Aug 2025 — Present<br/>Berlin, Germany
+        </div>
+        <div class="t-body">
+          <h3>Sales Associate</h3>
+          <div class="t-org">URBN, Inc.</div>
+          <ul class="t-points">
+            <li>Worked with a retail team to provide hands-on, customer-facing service, <strong>helping to bring down shrink from 2.4% to 1.08%</strong>.</li>
+            <li>Handled POS and cash reconciliation; managed inventory and tracked sales trends to improve merchandising.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-meta">
+          <strong>Volunteer</strong>
+          Dec 2020 — Jan 2021<br/>India
+        </div>
+        <div class="t-body">
+          <h3>Community Manager</h3>
+          <div class="t-org">JOSHConnect</div>
+          <ul class="t-points">
+            <li>Increased social media engagement by <strong>10%</strong> through targeted content and campaign support.</li>
+            <li>Used <strong>Google Analytics</strong> to measure outreach and grow landing-page traffic by 25%.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="alt">
+    <div class="section-label">05 — Projects</div>
+    <h2>Selected work</h2>
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <div class="proj-tags">
+          <span class="proj-tag">SQL</span>
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">SQLite</span>
+          <span class="proj-tag">pandas</span>
+        </div>
+        <h3>Sales &amp; Profitability Analysis</h3>
+        <p>Analysed 51,290 transactions across 13 regions using SQLite within Python, identifying 7% of high-revenue products causing loss. Designed a star schema database uncovering an overall profit margin of 18.75%. Advanced SQL including CTEs, window functions, and CASE WHEN segmentation.</p>
+        <a href="https://github.com/moztarib/data-analytics-sql" target="_blank" class="proj-link">View on GitHub →</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">QGIS</span>
+          <span class="proj-tag">Scientific Computing</span>
+          <span class="proj-tag">Orbital Data</span>
+        </div>
+        <h3>Noctis Mons — Geophysical Investigation</h3>
+        <p>First ever geophysical study of Noctis Mons on Mars. Built Python pipelines to reconstruct volcanic height and edifice volume from orbital datasets. Developed a 5D numerical plume model and inverted MARSIS radar data for subsurface characterisation. Published in DLR repository and ESSOAr.</p>
+        <a href="https://github.com/moztarib/mars-geophysics-portfolio" target="_blank" class="proj-link">View on GitHub →</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tags">
+          <span class="proj-tag">Fieldwork</span>
+          <span class="proj-tag">Geology</span>
+          <span class="proj-tag">Remote Sensing</span>
+        </div>
+        <h3>Field Excursion — Ebro Basin, Spain</h3>
+        <p>Collaborated in a 7-day field excursion to Ebro Basin, Zaragoza, for a project on ancient inverted river channels analogous to Mars. Conducted as a group of four. Results published as a scientific article on the EGU Tectonics and Structural Geology blog.</p>
+        <a href="https://blogs.egu.eu/divisions/ts/author/farisbeg/" target="_blank" class="proj-link">View publication →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-label">06 — Publications</div>
+    <h2>Research output</h2>
+    <div class="pub-list">
+
+      <div class="pub-card">
+        <div class="pub-text">
+          <h3>Geophysical Investigation of Noctis Mons</h3>
+          <p>First geophysical and geodynamic study of Noctis Mons on equatorial Mars, using MOLA, MARSIS, and numerical plume modelling. Determining 5 previously unknown parameters. Published in the DLR institutional e-Library and ESSOAr open archive.</p>
+        </div>
+        <div class="pub-actions">
+          <a href="https://essopenarchive.org/users/993013/articles/1355127-geophysical-investigation-of-noctis-volcano-on-equatorial-mars-using-mola-marsis-and-numerical-plume-modelling?commit=8801b8814e9d740b32115ea39e9d55a46b745f0b" target="_blank" class="pub-btn">ESSOAr →</a>
+          <a href="https://elib.dlr.de/222060/" target="_blank" class="pub-btn">DLR e-Lib →</a>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-text">
+          <h3>Inverted River Channels in Alcañiz</h3>
+          <p>Study of ancient inverted river channels in the Ebro Basin, Spain, with analogous implications for Martian surface geology. Published on the EGU Tectonics and Structural Geology blog.</p>
+        </div>
+        <div class="pub-actions">
+          <a href="https://blogs.egu.eu/divisions/ts/author/farisbeg/" target="_blank" class="pub-btn">EGU Article →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards" class="alt">
+    <div class="section-label">07 — Honours &amp; Awards</div>
+    <h2>Recognition</h2>
+    <div class="awards-grid">
+      <div class="award-card">
+        <div class="award-ico">🏅</div>
+        <div class="award-info">
+          <h4>Erasmus Mundus Scholarship</h4>
+          <p>2023 — 2025 · Fully funded EU postgraduate research scholarship. Highly competitive international selection.</p>
+        </div>
+      </div>
+      <div class="award-card">
+        <div class="award-ico">🏅</div>
+        <div class="award-info">
+          <h4>Invest Your Talent in Italy</h4>
+          <p>2023 · Competitive merit-based scholarship awarded alongside the Erasmus Mundus funding.</p>
+        </div>
+      </div>
+      <div class="award-card">
+        <div class="award-ico">🏆</div>
+        <div class="award-info">
+          <h4>Winner — CRUST, AAPG National Conference</h4>
+          <p>2020 · Led the winning team at the national geoscience competition.</p>
+        </div>
+      </div>
+      <div class="award-card">
+        <div class="award-ico">✍️</div>
+        <div class="award-info">
+          <h4>Lead Author — 2 Scientific Publications</h4>
+          <p>Published in DLR e-Library, ESSOAr open archive, and EGU Tectonics and Structural Geology.</p>
+        </div>
+      </div>
+      <div class="award-card">
+        <div class="award-ico">🎤</div>
+        <div class="award-info">
+          <h4>Captain — Inter-College Debating Team</h4>
+          <p>Led high-school debating team at inter-college competition level.</p>
+        </div>
+      </div>
+      <div class="award-card">
+        <div class="award-ico">🔬</div>
+        <div class="award-info">
+          <h4>Group Leader — Hyalite Lab Study</h4>
+          <p>Led a 4-person, 7-day study on Opal rocks in Caux as part of the Erasmus Mundus programme.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-label">08 — Gallery</div>
+    <h2>In the field</h2>
+    <p class="gallery-note">To add your photos: place image files in the same folder as index.html, then replace the src="" in each img tag below with your filename (e.g. src="photo1.jpg").</p>
+    <div class="gallery-grid">
+
+      <div class="gallery-slot">
+        <img src="" alt="Photo 1"/>
+        <div class="placeholder-icon">📷</div>
+        <span>Add photo</span>
+      </div>
+
+      <div class="gallery-slot">
+        <img src="" alt="Photo 2"/>
+        <div class="placeholder-icon">📷</div>
+        <span>Add photo</span>
+      </div>
+
+      <div class="gallery-slot">
+        <img src="" alt="Photo 3"/>
+        <div class="placeholder-icon">📷</div>
+        <span>Add photo</span>
+      </div>
+
+      <div class="gallery-slot">
+        <img src="" alt="Photo 4"/>
+        <div class="placeholder-icon">📷</div>
+        <span>Add photo</span>
+      </div>
+
+      <div class="gallery-slot">
+        <img src="" alt="Photo 5"/>
+        <div class="placeholder-icon">📷</div>
+        <span>Add photo</span>
+      </div>
+
+      <div class="gallery-slot">
+        <img src="" alt="Photo 6"/>
+        <div class="placeholder-icon">📷</div>
+        <span>Add photo</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="alt">
+    <div class="section-label">09 — Skills</div>
+    <h2>Technical proficiency</h2>
+    <div class="skills-layout">
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-label">Programming &amp; Data</div>
+          <div class="tag-cloud">
+            <span class="tag">Python</span>
+            <span class="tag">SQL (SQLite)</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Pandas</span>
+            <span class="tag">SciPy</span>
+            <span class="tag">Scikit-learn</span>
+            <span class="tag">Matplotlib</span>
+            <span class="tag">R</span>
+            <span class="tag">IDL</span>
+            <span class="tag">SQLAlchemy</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Geospatial &amp; Remote Sensing</div>
+          <div class="tag-cloud">
+            <span class="tag">QGIS</span>
+            <span class="tag">ArcGIS</span>
+            <span class="tag">GDAL</span>
+            <span class="tag">rasterio</span>
+            <span class="tag">ENVI</span>
+            <span class="tag">Multispectral / SAR</span>
+            <span class="tag">DEM Morphometrics</span>
+            <span class="tag">FFT Image Processing</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Tools &amp; Platforms</div>
+          <div class="tag-cloud">
+            <span class="tag">Jupyter Notebook</span>
+            <span class="tag">GitHub</span>
+            <span class="tag">Visual Studio</span>
+            <span class="tag">Google Analytics</span>
+            <span class="tag">Excel (Pivot)</span>
+            <span class="tag">LaTeX</span>
+            <span class="tag">Microsoft 365</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-label">Languages</div>
+          <div class="lang-list">
+            <div class="lang-row"><span class="lang-name-txt">English</span><span class="lang-lvl">Native</span></div>
+            <div class="lang-row"><span class="lang-name-txt">Urdu</span><span class="lang-lvl">Native</span></div>
+            <div class="lang-row"><span class="lang-name-txt">Turkish</span><span class="lang-lvl">C1</span></div>
+            <div class="lang-row"><span class="lang-name-txt">German</span><span class="lang-lvl">B1</span></div>
+            <div class="lang-row"><span class="lang-name-txt">French</span><span class="lang-lvl">A2</span></div>
+            <div class="lang-row"><span class="lang-name-txt">Italian</span><span class="lang-lvl">A2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label" style="justify-content:center;">10 — Contact</div>
+    <h2>Let's connect</h2>
+    <p class="contact-sub">Open to data analytics, data consultancy, climate data, and research analyst roles. Based in Berlin. Open to relocation or remote.</p>
+    <div class="contact-grid">
+      <a href="mailto:farisbeg.mirza@gmail.com" class="contact-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        farisbeg.mirza@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/faris-beg-a378a0359/" target="_blank" class="contact-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/moztarib" target="_blank" class="contact-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a href="tel:+393450307631" class="contact-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.41 2 2 0 0 1 3.6 2.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.07 6.07l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z"/></svg>
+        +39 345 030 7631
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Faris Beg · <span>farisbeg.mirza@gmail.com</span></p>
+    <p>Built for GitHub Pages · Berlin, Germany</p>
+  </footer>
+
+</body>
+</html>
